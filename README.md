@@ -1,7 +1,3 @@
-## Prodyo
-
-Prodyo is a mini productivity tracker for software teams, organized like a kanban but focused on measuring how a team actually delivers code over time. Instead of just moving cards across columns, every task carries the data needed to compute objective productivity indicators per project and per iteration.
-
 ### What it does
 
 Each user can own or participate in multiple **Projects**. A project groups its **Members** (each with a role: Owner, Admin or Member) and a sequence of **Iterations** with fixed start and end dates (think sprints). Inside an iteration the team plans **Tasks**, each one annotated with an estimated duration (expected time), the time actually spent, and function points (story points).
