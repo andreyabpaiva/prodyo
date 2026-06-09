@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS projects (
+    id          UUID          PRIMARY KEY,
+    name        VARCHAR(100)  NOT NULL,
+    description VARCHAR(1000) NOT NULL DEFAULT '',
+    tags        VARCHAR(2000) NOT NULL DEFAULT '[]',
+    created_at  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
