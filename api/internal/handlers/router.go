@@ -15,6 +15,7 @@ func NewRouter(c *config.Container) http.Handler {
 	authHandler := NewAuthHandler(c.AuthUsecase)
 
 	projectHandler := NewProjectHandler(usecases.NewProjectUsecase(c.ProjectRepo, c.MemberRepo))
+	productivityHandler := NewProductivityHandler(usecases.NewProductivityUsecase(c.IterationRepo, c.TaskRepo, c.BugRepo, c.ImprovementRepo))
 	memberHandler := NewMemberHandler(usecases.NewMemberUsecase(c.MemberRepo))
 	iterationHandler := NewIterationHandler(usecases.NewIterationUsecase(c.IterationRepo))
 	taskHandler := NewTaskHandler(usecases.NewTaskUsecase(c.TaskRepo))
@@ -84,6 +85,9 @@ func NewRouter(c *config.Container) http.Handler {
 			r.With(anyMember).Get("/iterations/{iterationId}/tasks/{taskId}/improvements/{improvementId}", improvementHandler.GetByID)
 			r.With(anyMember).Put("/iterations/{iterationId}/tasks/{taskId}/improvements/{improvementId}", improvementHandler.Update)
 			r.With(ownerAdmin).Delete("/iterations/{iterationId}/tasks/{taskId}/improvements/{improvementId}", improvementHandler.Delete)
+
+			r.With(anyMember).Get("/metrics", productivityHandler.ProjectMetrics)
+			r.With(anyMember).Get("/iterations/{iterationId}/metrics", productivityHandler.IterationMetrics)
 		})
 	})
 

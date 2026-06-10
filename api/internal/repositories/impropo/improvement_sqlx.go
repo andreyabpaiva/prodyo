@@ -42,6 +42,18 @@ func (r *sqlxImprovementRepository) FindByTaskID(ctx context.Context, taskID uui
 	return improvements, err
 }
 
+func (r *sqlxImprovementRepository) SumFunctionPointsByIterationID(ctx context.Context, iterationID uuid.UUID) (float64, error) {
+	var total float64
+	err := r.db.GetContext(ctx, &total,
+		`SELECT COALESCE(SUM(i.function_points), 0)
+		 FROM improvements i
+		 INNER JOIN tasks t ON t.id = i.task_id
+		 WHERE t.iteration_id = ?`,
+		iterationID,
+	)
+	return total, err
+}
+
 func (r *sqlxImprovementRepository) Update(ctx context.Context, improvement *models.Improvement) error {
 	_, err := r.db.ExecContext(ctx,
 		`UPDATE improvements SET description = ?, function_points = ?, limit_date = ?, updated_at = ? WHERE id = ?`,

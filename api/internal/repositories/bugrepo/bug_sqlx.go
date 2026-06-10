@@ -41,6 +41,18 @@ func (r *sqlxBugRepository) FindByTaskID(ctx context.Context, taskID uuid.UUID) 
 	return bugs, err
 }
 
+func (r *sqlxBugRepository) SumFunctionPointsByIterationID(ctx context.Context, iterationID uuid.UUID) (float64, error) {
+	var total float64
+	err := r.db.GetContext(ctx, &total,
+		`SELECT COALESCE(SUM(b.function_points), 0)
+		 FROM bugs b
+		 INNER JOIN tasks t ON t.id = b.task_id
+		 WHERE t.iteration_id = ?`,
+		iterationID,
+	)
+	return total, err
+}
+
 func (r *sqlxBugRepository) Update(ctx context.Context, bug *models.Bug) error {
 	_, err := r.db.ExecContext(ctx,
 		`UPDATE bugs SET description = ?, function_points = ?, limit_date = ?, updated_at = ? WHERE id = ?`,

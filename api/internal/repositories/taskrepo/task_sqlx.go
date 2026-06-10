@@ -44,6 +44,27 @@ func (r *sqlxTaskRepository) FindByIterationID(ctx context.Context, iterationID 
 	return tasks, err
 }
 
+func (r *sqlxTaskRepository) AggregateByIterationID(ctx context.Context, iterationID uuid.UUID) (TaskAggregates, error) {
+	var row struct {
+		TotalFunctionPoints float64 `db:"total_fp"`
+		TotalExpectedTime   int64   `db:"total_expected_time"`
+		TotalTimeSpent      int64   `db:"total_time_spent"`
+	}
+	err := r.db.GetContext(ctx, &row,
+		`SELECT
+			COALESCE(SUM(function_points), 0) AS total_fp,
+			COALESCE(SUM(expected_time), 0)   AS total_expected_time,
+			COALESCE(SUM(time_spent), 0)      AS total_time_spent
+		 FROM tasks WHERE iteration_id = ?`,
+		iterationID,
+	)
+	return TaskAggregates{
+		TotalFunctionPoints: row.TotalFunctionPoints,
+		TotalExpectedTime:   row.TotalExpectedTime,
+		TotalTimeSpent:      row.TotalTimeSpent,
+	}, err
+}
+
 func (r *sqlxTaskRepository) Update(ctx context.Context, task *models.Task) error {
 	_, err := r.db.ExecContext(ctx,
 		`UPDATE tasks SET title = ?, description = ?, status = ?, tags = ?, function_points = ?,
