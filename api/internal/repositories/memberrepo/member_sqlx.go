@@ -25,6 +25,14 @@ func (r *sqlxMemberRepository) Create(ctx context.Context, member *models.Member
 	return err
 }
 
+func (r *sqlxMemberRepository) FindByID(ctx context.Context, id uuid.UUID) (*models.Member, error) {
+	var member models.Member
+	if err := r.db.GetContext(ctx, &member, `SELECT * FROM members WHERE id = ?`, id); err != nil {
+		return nil, err
+	}
+	return &member, nil
+}
+
 func (r *sqlxMemberRepository) FindByProjectID(ctx context.Context, projectID uuid.UUID) ([]models.Member, error) {
 	var members []models.Member
 	err := r.db.SelectContext(ctx, &members, `SELECT * FROM members WHERE project_id = ?`, projectID)

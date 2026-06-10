@@ -29,8 +29,9 @@ type Container struct {
 	BugRepo         bugrepo.BugRepository
 	ImprovementRepo impropo.ImprovementRepository
 
-	AuthService *services.AuthService
-	AuthUsecase *usecases.AuthUsecase
+	AuthService      *services.AuthService
+	AuthUsecase      *usecases.AuthUsecase
+	TaskChildFactory *services.TaskChildFactory
 }
 
 func NewContainer(cfg Config) (*Container, error) {
@@ -46,6 +47,9 @@ func NewContainer(cfg Config) (*Container, error) {
 	}
 
 	userRepo := userrepo.New(db)
+	taskRepo := taskrepo.New(db)
+	bugRepo := bugrepo.New(db)
+	improveRepo := impropo.New(db)
 
 	authService := services.NewAuthService(
 		cfg.JWTSecret,
@@ -55,19 +59,21 @@ func NewContainer(cfg Config) (*Container, error) {
 		cfg.CookieSameSite,
 	)
 	authUsecase := usecases.NewAuthUsecase(userRepo, authService)
+	factory := services.NewTaskChildFactory(taskRepo, bugRepo, improveRepo)
 
 	return &Container{
-		Config:          cfg,
-		DB:              db,
-		UserRepo:        userRepo,
-		ProjectRepo:     projectrepo.New(db),
-		MemberRepo:      memberrepo.New(db),
-		IterationRepo:   iterrepo.New(db),
-		TaskRepo:        taskrepo.New(db),
-		BugRepo:         bugrepo.New(db),
-		ImprovementRepo: impropo.New(db),
-		AuthService:     authService,
-		AuthUsecase:     authUsecase,
+		Config:           cfg,
+		DB:               db,
+		UserRepo:         userRepo,
+		ProjectRepo:      projectrepo.New(db),
+		MemberRepo:       memberrepo.New(db),
+		IterationRepo:    iterrepo.New(db),
+		TaskRepo:         taskRepo,
+		BugRepo:          bugRepo,
+		ImprovementRepo:  improveRepo,
+		AuthService:      authService,
+		AuthUsecase:      authUsecase,
+		TaskChildFactory: factory,
 	}, nil
 }
 
