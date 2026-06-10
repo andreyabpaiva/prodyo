@@ -38,6 +38,9 @@ func NewRouter(c *config.Container) http.Handler {
 		respondJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
 
+	r.Get("/docs", docsUIHandler)
+	r.Get("/docs/openapi.yaml", docsSpecHandler)
+
 	r.Group(func(r chi.Router) {
 		r.Post("/api/auth/register", authHandler.Register)
 		r.Post("/api/auth/login", authHandler.Login)

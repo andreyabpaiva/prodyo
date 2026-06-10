@@ -1,0 +1,975 @@
+openapi: 3.0.3
+info:
+  title: Prodyo API
+  version: 1.0.0
+  description: >
+    Productivity tracker for software teams. Measures velocity, instability index,
+    and rework index per iteration and project. All duration fields are in seconds.
+    All analysis values are percentages.
+
+servers:
+  - url: http://localhost:8080
+    description: Local development
+
+security:
+  - cookieAuth: []
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: prodyo_token
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Member:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+        roles:
+          type: array
+          items:
+            type: string
+            enum: [Owner, Admin, Member]
+        created_at:
+          type: string
+          format: date-time
+
+    Iteration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+        goal:
+          type: string
+        start_at:
+          type: string
+          format: date-time
+        end_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [Planned, Active, Completed]
+        increment:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        iteration_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [Backlog, Todo, InProgress, Review, Done]
+        tags:
+          type: array
+          items:
+            type: string
+        function_points:
+          type: number
+          format: double
+        expected_time:
+          type: integer
+          format: int64
+          description: Duration in seconds
+        time_spent:
+          type: integer
+          format: int64
+          description: Duration in seconds
+        assignee_id:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    TaskChild:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        task_id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        function_points:
+          type: number
+          format: double
+        limit_date:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    IterationMetrics:
+      type: object
+      properties:
+        iteration_id:
+          type: string
+          format: uuid
+        velocity:
+          type: number
+          format: double
+          description: (expected_time / time_spent) × 100
+        instability_index:
+          type: number
+          format: double
+          description: (improvement_function_points / task_function_points) × 100
+        rework_index:
+          type: number
+          format: double
+          description: (bug_function_points / task_function_points) × 100
+
+    ProjectMetrics:
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        iterations:
+          type: array
+          items:
+            $ref: "#/components/schemas/IterationMetrics"
+
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    iterationId:
+      name: iterationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    taskId:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    memberId:
+      name: memberId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    bugId:
+      name: bugId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    improvementId:
+      name: improvementId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      security: []
+      tags: [System]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      security: []
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "201":
+          description: User created; auth cookie set
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Email already taken
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/auth/login:
+    post:
+      summary: Log in
+      security: []
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Logged in; auth cookie set
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/auth/logout:
+    post:
+      summary: Log out
+      tags: [Auth]
+      responses:
+        "204":
+          description: Logged out; auth cookie cleared
+
+  /api/auth/me:
+    get:
+      summary: Get current user
+      tags: [Auth]
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/projects:
+    get:
+      summary: List projects for the current user
+      tags: [Projects]
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+    post:
+      summary: Create a project
+      tags: [Projects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "201":
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+
+  /api/projects/{projectId}:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+    get:
+      summary: Get a project
+      tags: [Projects]
+      responses:
+        "200":
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a project (Owner or Admin)
+      tags: [Projects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    delete:
+      summary: Delete a project (Owner only)
+      tags: [Projects]
+      responses:
+        "204":
+          description: Deleted
+
+  /api/projects/{projectId}/members:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+    get:
+      summary: List project members
+      tags: [Members]
+      responses:
+        "200":
+          description: Members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Member"
+    post:
+      summary: Add a member (Owner or Admin)
+      tags: [Members]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, roles]
+              properties:
+                user_id:
+                  type: string
+                  format: uuid
+                roles:
+                  type: array
+                  items:
+                    type: string
+                    enum: [Owner, Admin, Member]
+      responses:
+        "201":
+          description: Member added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+
+  /api/projects/{projectId}/members/{memberId}:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/memberId"
+    put:
+      summary: Update member roles (Owner or Admin)
+      tags: [Members]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [roles]
+              properties:
+                roles:
+                  type: array
+                  items:
+                    type: string
+                    enum: [Owner, Admin, Member]
+      responses:
+        "200":
+          description: Updated member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+    delete:
+      summary: Remove a member (Owner only)
+      tags: [Members]
+      responses:
+        "204":
+          description: Removed
+
+  /api/projects/{projectId}/iterations:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+    get:
+      summary: List iterations
+      tags: [Iterations]
+      responses:
+        "200":
+          description: Iterations ordered by increment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Iteration"
+    post:
+      summary: Create an iteration (Owner or Admin)
+      tags: [Iterations]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [start_at, end_at]
+              properties:
+                goal:
+                  type: string
+                start_at:
+                  type: string
+                  format: date-time
+                end_at:
+                  type: string
+                  format: date-time
+                increment:
+                  type: integer
+                  format: int32
+      responses:
+        "201":
+          description: Iteration created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Iteration"
+
+  /api/projects/{projectId}/iterations/{iterationId}:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+    get:
+      summary: Get an iteration
+      tags: [Iterations]
+      responses:
+        "200":
+          description: Iteration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Iteration"
+    put:
+      summary: Update an iteration (Owner or Admin)
+      tags: [Iterations]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [start_at, end_at]
+              properties:
+                goal:
+                  type: string
+                start_at:
+                  type: string
+                  format: date-time
+                end_at:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum: [Planned, Active, Completed]
+                increment:
+                  type: integer
+                  format: int32
+      responses:
+        "200":
+          description: Updated iteration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Iteration"
+    delete:
+      summary: Delete an iteration (Owner or Admin)
+      tags: [Iterations]
+      responses:
+        "204":
+          description: Deleted
+
+  /api/projects/{projectId}/metrics:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+    get:
+      summary: Get productivity metrics for all iterations in a project
+      tags: [Metrics]
+      responses:
+        "200":
+          description: Project metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectMetrics"
+
+  /api/projects/{projectId}/iterations/{iterationId}/metrics:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+    get:
+      summary: Get productivity metrics for a single iteration
+      tags: [Metrics]
+      responses:
+        "200":
+          description: Iteration metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IterationMetrics"
+
+  /api/projects/{projectId}/iterations/{iterationId}/tasks:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+    get:
+      summary: List tasks
+      tags: [Tasks]
+      responses:
+        "200":
+          description: Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      summary: Create a task
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                function_points:
+                  type: number
+                  format: double
+                expected_time:
+                  type: integer
+                  format: int64
+                  description: Duration in seconds
+                assignee_id:
+                  type: string
+                  format: uuid
+                  nullable: true
+      responses:
+        "201":
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /api/projects/{projectId}/iterations/{iterationId}/tasks/{taskId}:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+      - $ref: "#/components/parameters/taskId"
+    get:
+      summary: Get a task
+      tags: [Tasks]
+      responses:
+        "200":
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    put:
+      summary: Update a task
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                status:
+                  type: string
+                  enum: [Backlog, Todo, InProgress, Review, Done]
+                tags:
+                  type: array
+                  items:
+                    type: string
+                function_points:
+                  type: number
+                  format: double
+                expected_time:
+                  type: integer
+                  format: int64
+                  description: Duration in seconds
+                time_spent:
+                  type: integer
+                  format: int64
+                  description: Duration in seconds
+                assignee_id:
+                  type: string
+                  format: uuid
+                  nullable: true
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    delete:
+      summary: Delete a task (Owner or Admin)
+      tags: [Tasks]
+      responses:
+        "204":
+          description: Deleted
+
+  /api/projects/{projectId}/iterations/{iterationId}/tasks/{taskId}/bugs:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+      - $ref: "#/components/parameters/taskId"
+    get:
+      summary: List bugs for a task
+      tags: [Bugs]
+      responses:
+        "200":
+          description: Bugs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskChild"
+    post:
+      summary: Create a bug
+      tags: [Bugs]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [description, limit_date]
+              properties:
+                description:
+                  type: string
+                function_points:
+                  type: number
+                  format: double
+                limit_date:
+                  type: string
+                  format: date-time
+      responses:
+        "201":
+          description: Bug created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskChild"
+
+  /api/projects/{projectId}/iterations/{iterationId}/tasks/{taskId}/bugs/{bugId}:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+      - $ref: "#/components/parameters/taskId"
+      - $ref: "#/components/parameters/bugId"
+    get:
+      summary: Get a bug
+      tags: [Bugs]
+      responses:
+        "200":
+          description: Bug
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskChild"
+    put:
+      summary: Update a bug
+      tags: [Bugs]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [description]
+              properties:
+                description:
+                  type: string
+                function_points:
+                  type: number
+                  format: double
+                limit_date:
+                  type: string
+                  format: date-time
+      responses:
+        "200":
+          description: Updated bug
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskChild"
+    delete:
+      summary: Delete a bug (Owner or Admin)
+      tags: [Bugs]
+      responses:
+        "204":
+          description: Deleted
+
+  /api/projects/{projectId}/iterations/{iterationId}/tasks/{taskId}/improvements:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+      - $ref: "#/components/parameters/taskId"
+    get:
+      summary: List improvements for a task
+      tags: [Improvements]
+      responses:
+        "200":
+          description: Improvements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskChild"
+    post:
+      summary: Create an improvement
+      tags: [Improvements]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [description, limit_date]
+              properties:
+                description:
+                  type: string
+                function_points:
+                  type: number
+                  format: double
+                limit_date:
+                  type: string
+                  format: date-time
+      responses:
+        "201":
+          description: Improvement created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskChild"
+
+  /api/projects/{projectId}/iterations/{iterationId}/tasks/{taskId}/improvements/{improvementId}:
+    parameters:
+      - $ref: "#/components/parameters/projectId"
+      - $ref: "#/components/parameters/iterationId"
+      - $ref: "#/components/parameters/taskId"
+      - $ref: "#/components/parameters/improvementId"
+    get:
+      summary: Get an improvement
+      tags: [Improvements]
+      responses:
+        "200":
+          description: Improvement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskChild"
+    put:
+      summary: Update an improvement
+      tags: [Improvements]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [description]
+              properties:
+                description:
+                  type: string
+                function_points:
+                  type: number
+                  format: double
+                limit_date:
+                  type: string
+                  format: date-time
+      responses:
+        "200":
+          description: Updated improvement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskChild"
+    delete:
+      summary: Delete an improvement (Owner or Admin)
+      tags: [Improvements]
+      responses:
+        "204":
+          description: Deleted
