@@ -1,12 +1,12 @@
-FROM golang:1.25-bookworm AS builder
+FROM golang:1.23-bookworm AS builder
 
 WORKDIR /src
 ENV CGO_ENABLED=1
 
-COPY apps/api/go.mod apps/api/go.sum ./
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY apps/api/ ./
+COPY . .
 RUN go build -trimpath -ldflags="-s -w" -o /out/api ./cmd/api
 
 FROM debian:bookworm-slim
