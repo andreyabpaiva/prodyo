@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - duckdb-data:/data
+      - ./data:/data
     restart: unless-stopped
 
   web:
@@ -25,5 +25,3 @@ services:
       - api
     restart: unless-stopped
 
-volumes:
-  duckdb-data:
