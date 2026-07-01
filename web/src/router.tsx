@@ -1,10 +1,16 @@
-import { createBrowserRouter } from 'react-router-dom';
-import App from '@/app';
+import { createBrowserRouter } from "react-router-dom";
+import App from "@/app";
+import LandingPage from "@/pages/landing";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
-    children: [],
+    children: [
+      {
+        index: true,
+        element: <LandingPage />,
+      },
+    ],
   },
 ]);
