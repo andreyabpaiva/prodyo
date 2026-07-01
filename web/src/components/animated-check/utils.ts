@@ -1,0 +1,25 @@
+import {
+  ANIMATED_CHECK_DRAW_DURATION,
+  ANIMATED_CHECK_HOLD_DURATION,
+  ANIMATED_CHECK_ITEM_COUNT,
+  ANIMATED_CHECK_UNCHECK_DURATION,
+  ANIMATED_CHECK_CYCLE_DURATION,
+} from "./constants";
+
+export function getAnimatedCheckTimes(index: number): number[] {
+  const startDraw = index * ANIMATED_CHECK_DRAW_DURATION;
+  const endDraw = startDraw + ANIMATED_CHECK_DRAW_DURATION;
+  const holdEnd =
+    ANIMATED_CHECK_ITEM_COUNT * ANIMATED_CHECK_DRAW_DURATION +
+    ANIMATED_CHECK_HOLD_DURATION;
+  const uncheckEnd = holdEnd + ANIMATED_CHECK_UNCHECK_DURATION;
+
+  return [
+    0,
+    startDraw / ANIMATED_CHECK_CYCLE_DURATION,
+    endDraw / ANIMATED_CHECK_CYCLE_DURATION,
+    holdEnd / ANIMATED_CHECK_CYCLE_DURATION,
+    uncheckEnd / ANIMATED_CHECK_CYCLE_DURATION,
+    1,
+  ];
+}
