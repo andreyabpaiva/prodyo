@@ -1,0 +1,49 @@
+{
+  "landing": {
+    "tagline": "Track your productivity, one iteration at a time.",
+    "sub": "Prodyo helps dev teams measure effort, manage iterations, and ship with confidence.",
+    "cta": "Get started",
+    "signin": "Sign in",
+    "badge": "Prodyo · Beta",
+    "features": {
+      "f1": {
+        "title": "Smart iteration planning",
+        "desc": "Track tasks, bugs, and improvements with function points and velocity metrics."
+      },
+      "f2": {
+        "title": "Team velocity insights",
+        "desc": "Understand where time goes and improve sprint by sprint with real data."
+      },
+      "f3": {
+        "title": "Unified project hub",
+        "desc": "Everything in one place: tasks, iterations, members, and performance metrics."
+      }
+    }
+  },
+  "auth": {
+    "loginTab": "Sign in",
+    "signupTab": "Sign up",
+    "login": {
+      "title": "Welcome back",
+      "sub": "Sign in to your Prodyo account.",
+      "btn": "Sign in",
+      "switch": "Don't have an account? Sign up"
+    },
+    "signup": {
+      "title": "Create account",
+      "sub": "Start tracking your productivity today.",
+      "btn": "Create account",
+      "switch": "Already have an account? Sign in"
+    },
+    "fields": {
+      "name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "passwordOptional": "(optional)"
+    }
+  },
+  "common": {
+    "lang": "EN"
+  }
+}

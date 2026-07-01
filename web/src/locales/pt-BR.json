@@ -1,0 +1,49 @@
+{
+  "landing": {
+    "tagline": "Acompanhe sua produtividade, uma iteração por vez.",
+    "sub": "O Prodyo ajuda times de desenvolvimento a medir esforço, gerenciar iterações e entregar com confiança.",
+    "cta": "Começar agora",
+    "signin": "Entrar",
+    "badge": "Prodyo · Beta",
+    "features": {
+      "f1": {
+        "title": "Planejamento inteligente",
+        "desc": "Acompanhe tarefas, bugs e melhorias com pontos de função e métricas de velocidade."
+      },
+      "f2": {
+        "title": "Velocidade do time",
+        "desc": "Entenda onde o tempo vai e melhore sprint a sprint com dados reais."
+      },
+      "f3": {
+        "title": "Hub de projetos unificado",
+        "desc": "Tudo em um lugar: tarefas, iterações, membros e métricas de desempenho."
+      }
+    }
+  },
+  "auth": {
+    "loginTab": "Entrar",
+    "signupTab": "Cadastrar",
+    "login": {
+      "title": "Bem-vindo de volta",
+      "sub": "Entre na sua conta Prodyo.",
+      "btn": "Entrar",
+      "switch": "Não tem uma conta? Cadastre-se"
+    },
+    "signup": {
+      "title": "Criar conta",
+      "sub": "Comece a acompanhar sua produtividade hoje.",
+      "btn": "Criar conta",
+      "switch": "Já tem uma conta? Entre"
+    },
+    "fields": {
+      "name": "Nome completo",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha",
+      "passwordOptional": "(opcional)"
+    }
+  },
+  "common": {
+    "lang": "PT"
+  }
+}
