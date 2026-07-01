@@ -1,8 +1,70 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: { DEFAULT: "#9A7060", light: "#F0E4DC" },
+        canvas: "#F5F0EB",
+        paper: "#FDFAF8",
+        shell: "#EEE8E2",
+        espresso: "#2D201A",
+        stone: "#7A6A60",
+        dust: "#B4A494",
+        fog: "#DDD5CC",
+        ash: "#C9B8A8",
+        status: {
+          todo: "#DDE4F4",
+          doing: "#F4E8D4",
+          done: "#D8ECD8",
+        },
+        bug: { DEFAULT: "#C45858", bg: "#F4D4D0" },
+        impro: { DEFAULT: "#8060C4", bg: "#E0D8F4" },
+        feature: {
+          green: "#AECFAE",
+          blue: "#B8C8E8",
+          orange: "#E8C4A8",
+        },
+      },
+      fontFamily: {
+        lora: ["Lora", "serif"],
+      },
+      fontSize: {
+        nano: ["9px", { lineHeight: "1" }],
+        micro: ["10px", { lineHeight: "1" }],
+        caption: ["11px", { lineHeight: "1.4" }],
+        fine: ["13px", { lineHeight: "1.55" }],
+        cta: ["15px", { lineHeight: "1.6" }],
+        logo: ["21px", { lineHeight: "1" }],
+        subhead: ["22px", { lineHeight: "1.3" }],
+        section: ["26px", { lineHeight: "1.3" }],
+        pane: ["28px", { lineHeight: "1.3" }],
+        hero: ["58px", { lineHeight: "1.12" }],
+      },
+      spacing: {
+        "2.25": "9px",
+        "2.75": "11px",
+        "3.25": "13px",
+        "3.75": "15px",
+        "4.5": "18px",
+        "5.5": "22px",
+      },
+      borderRadius: {
+        item: "9px",
+        input: "10px",
+        tab: "11px",
+        task: "13px",
+        project: "15px",
+        card: "20px",
+      },
+      boxShadow: {
+        card: "0 4px 24px rgba(0,0,0,.1)",
+        widget: "0 1px 5px rgba(0,0,0,.05)",
+        task: "0 1px 4px rgba(0,0,0,.05)",
+        panel: "-6px 0 32px rgba(0,0,0,.12)",
+        tab: "0 1px 4px rgba(0,0,0,.08)",
+      },
+    },
   },
   plugins: [],
 };
