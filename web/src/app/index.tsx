@@ -1,5 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import PageTransition from "@/components/page-transition";
 
 export default function App() {
-  return <Outlet />;
+  const location = useLocation();
+  return (
+    <PageTransition key={location.pathname}>
+      <Outlet />
+    </PageTransition>
+  );
 }
