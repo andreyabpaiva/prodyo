@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "@/app";
 import LandingPage from "@/pages/landing";
+import AuthPage from "@/pages/auth";
 
 export const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <LandingPage />,
+      },
+      {
+        path: "auth",
+        element: <AuthPage />,
       },
     ],
   },
