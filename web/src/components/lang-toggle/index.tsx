@@ -8,7 +8,7 @@ export default function LangToggle() {
   return (
     <button
       onClick={toggle}
-      className="text-caption font-medium text-stone bg-transparent border border-fog rounded-full px-3.5 py-1.5"
+      className="text-caption font-medium text-stone bg-transparent border border-fog rounded-full px-3.5 py-1.5 shadow-sm"
     >
       {t("common.lang")}
     </button>
