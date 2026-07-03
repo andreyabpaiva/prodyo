@@ -63,6 +63,7 @@ export default {
         widget: "0 1px 5px rgba(0,0,0,.05)",
         task: "0 1px 4px rgba(0,0,0,.05)",
         panel: "-6px 0 32px rgba(0,0,0,.12)",
+        "panel-right": "6px 0 32px rgba(0,0,0,.12)",
         tab: "0 1px 4px rgba(0,0,0,.08)",
       },
     },
