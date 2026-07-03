@@ -9,7 +9,7 @@ export default function AuthShell({ children }: AuthShellProps) {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-2/5 bg-brand flex-col justify-between p-12">
+      <div className="hidden lg:flex lg:w-2/5 bg-brand flex-col justify-between p-12 shadow-panel-right relative z-10">
         <Logo size="lg" variant="white" />
         <div>
           <h2 className="font-lora text-4xl font-semibold text-white leading-tight mb-7">
