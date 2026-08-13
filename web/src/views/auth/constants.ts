@@ -1,0 +1,1 @@
+export const AUTH_TAB_TRANSITION_OFFSET = 24;
