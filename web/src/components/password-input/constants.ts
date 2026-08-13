@@ -1,0 +1,1 @@
+export const PASSWORD_TOGGLE_ICON_SIZE = 18;

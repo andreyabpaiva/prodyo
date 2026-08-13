@@ -1,6 +1,8 @@
-export interface InputProps {
+import type { InputHTMLAttributes, ReactNode } from "react";
+
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "className"> {
   label: string;
-  placeholder?: string;
-  type?: string;
-  disabled?: boolean;
+  error?: string;
+  adornment?: ReactNode;
 }
