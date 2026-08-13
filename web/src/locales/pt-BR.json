@@ -52,6 +52,10 @@
       "passwordMin": "Deve ter pelo menos {{min}} caracteres",
       "passwordMismatch": "As senhas não coincidem"
     },
+    "success": {
+      "login": "Login realizado com sucesso.",
+      "signup": "Conta criada com sucesso."
+    },
     "errors": {
       "invalidCredentials": "E-mail ou senha incorretos.",
       "emailTaken": "Este e-mail já está cadastrado.",

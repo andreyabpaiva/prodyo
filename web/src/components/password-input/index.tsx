@@ -20,7 +20,6 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         adornment={
           <button
             type="button"
-            tabIndex={-1}
             disabled={disabled}
             onClick={() => setVisible((current) => !current)}
             aria-label={t(

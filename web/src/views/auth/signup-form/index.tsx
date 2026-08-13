@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import Input from "@/components/input";
@@ -10,6 +11,7 @@ import type { SignupFormProps, SignupFormValues } from "./types";
 
 export default function SignupForm({ onSwitch }: SignupFormProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const signup = useRegister();
   const {
     register,
@@ -22,7 +24,10 @@ export default function SignupForm({ onSwitch }: SignupFormProps) {
     signup.mutate(
       { name, email, password },
       {
-        onSuccess: (user) => console.log(user),
+        onSuccess: () => {
+          toast.success(t("auth.success.signup"));
+          navigate("/", { replace: true });
+        },
         onError: (error) => toast.error(t(getAuthErrorKey(error))),
       },
     );

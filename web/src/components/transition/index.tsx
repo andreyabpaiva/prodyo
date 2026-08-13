@@ -4,7 +4,7 @@ import {
   TRANSITION_EASE,
   TRANSITION_OFFSET,
 } from "./constants";
-import { getTransitionVariants } from "./utils";
+import { getTransitionCustom, transitionVariants } from "./utils";
 import type { TransitionProps } from "./types";
 
 export default function Transition({
@@ -17,12 +17,15 @@ export default function Transition({
   className,
   children,
 }: TransitionProps) {
+  const custom = getTransitionCustom(preset, offset);
+
   return (
-    <AnimatePresence mode={mode} initial={animateOnMount}>
+    <AnimatePresence mode={mode} initial={animateOnMount} custom={custom}>
       <motion.div
         key={transitionKey}
+        custom={custom}
         className={className}
-        variants={getTransitionVariants(preset, offset)}
+        variants={transitionVariants}
         initial="initial"
         animate="animate"
         exit="exit"

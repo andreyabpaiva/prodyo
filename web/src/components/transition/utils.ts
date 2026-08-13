@@ -1,26 +1,37 @@
 import type { Variants } from "framer-motion";
 import { TRANSITION_DIRECTION, TRANSITION_OFFSET } from "./constants";
-import type { TransitionPreset } from "./types";
+import type { TransitionCustom, TransitionPreset } from "./types";
 
-export function getTransitionVariants(
+function getDisplacement(
   preset: TransitionPreset,
-  offset: number = TRANSITION_OFFSET
-): Variants {
+  offset: number,
+  sign: number
+) {
   if (preset === "fade") {
-    return {
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      exit: { opacity: 0 },
-    };
+    return {};
   }
 
-  const { axis, sign } = TRANSITION_DIRECTION[preset];
-  const enter = axis === "x" ? { x: sign * offset } : { y: sign * offset };
-  const leave = axis === "x" ? { x: -sign * offset } : { y: -sign * offset };
+  const { axis, sign: presetSign } = TRANSITION_DIRECTION[preset];
+  const value = sign * presetSign * offset;
 
-  return {
-    initial: { opacity: 0, ...enter },
-    animate: { opacity: 1, x: 0, y: 0 },
-    exit: { opacity: 0, ...leave },
-  };
+  return axis === "x" ? { x: value } : { y: value };
 }
+
+export function getTransitionCustom(
+  preset: TransitionPreset,
+  offset: number = TRANSITION_OFFSET
+): TransitionCustom {
+  return { preset, offset };
+}
+
+export const transitionVariants: Variants = {
+  initial: ({ preset, offset }: TransitionCustom) => ({
+    opacity: 0,
+    ...getDisplacement(preset, offset, 1),
+  }),
+  animate: { opacity: 1, x: 0, y: 0 },
+  exit: ({ preset, offset }: TransitionCustom) => ({
+    opacity: 0,
+    ...getDisplacement(preset, offset, -1),
+  }),
+};

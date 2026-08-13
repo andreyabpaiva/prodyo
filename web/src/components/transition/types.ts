@@ -11,6 +11,11 @@ export type TransitionSlidePreset = Exclude<TransitionPreset, "fade">;
 
 export type TransitionMode = "wait" | "sync" | "popLayout";
 
+export interface TransitionCustom {
+  preset: TransitionPreset;
+  offset: number;
+}
+
 export interface TransitionProps {
   transitionKey: string;
   preset?: TransitionPreset;
