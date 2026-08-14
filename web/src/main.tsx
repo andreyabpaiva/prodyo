@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 import { queryClient } from "@/lib/query-client";
 import { router } from "@/router";
 import { LanguageProvider } from "@/contexts/language";
+import Toaster from "@/components/toaster";
 import "@/lib/i18n";
 import "@/styles.css";
 
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <RouterProvider router={router} />
+        <Toaster />
       </LanguageProvider>
     </QueryClientProvider>
   </React.StrictMode>,

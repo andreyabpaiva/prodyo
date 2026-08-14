@@ -41,9 +41,32 @@
       "password": "Password",
       "confirmPassword": "Confirm password",
       "passwordOptional": "(optional)"
+    },
+    "placeholders": {
+      "name": "Your name",
+      "email": "example@app.com"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Enter a valid email address",
+      "passwordMin": "Must be at least {{min}} characters",
+      "passwordMismatch": "Passwords don't match"
+    },
+    "success": {
+      "login": "Signed in successfully.",
+      "signup": "Account created successfully."
+    },
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "emailTaken": "This email is already registered.",
+      "invalidRequest": "Please check the information you entered.",
+      "generic": "Something went wrong. Please try again."
     }
   },
   "common": {
-    "lang": "EN"
+    "lang": "EN",
+    "loading": "Loading...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   }
 }

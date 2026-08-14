@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Transition from "@/components/transition";
 import AuthShell from "./auth-shell";
 import LoginForm from "./login-form";
 import SignupForm from "./signup-form";
+import { AUTH_TAB_TRANSITION_OFFSET } from "./constants";
 import type { AuthTab } from "./types";
 
 export default function AuthView() {
@@ -42,11 +44,18 @@ export default function AuthView() {
             {t("auth.signupTab")}
           </button>
         </div>
-        {tab === "login" ? (
-          <LoginForm onSwitch={() => setTab("signup")} />
-        ) : (
-          <SignupForm onSwitch={() => setTab("login")} />
-        )}
+        <Transition
+          transitionKey={tab}
+          preset={tab === "signup" ? "slide-left" : "slide-right"}
+          offset={AUTH_TAB_TRANSITION_OFFSET}
+          animateOnMount={false}
+        >
+          {tab === "login" ? (
+            <LoginForm onSwitch={() => setTab("signup")} />
+          ) : (
+            <SignupForm onSwitch={() => setTab("login")} />
+          )}
+        </Transition>
       </div>
     </AuthShell>
   );
