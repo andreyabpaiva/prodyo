@@ -35,7 +35,7 @@ func (r *sqlxIterationRepository) FindByID(ctx context.Context, id uuid.UUID) (*
 }
 
 func (r *sqlxIterationRepository) FindByProjectID(ctx context.Context, projectID uuid.UUID) ([]models.Iteration, error) {
-	var iterations []models.Iteration
+	iterations := []models.Iteration{}
 	err := r.db.SelectContext(ctx, &iterations,
 		`SELECT * FROM iterations WHERE project_id = ? ORDER BY increment ASC`, projectID,
 	)

@@ -1,29 +1,51 @@
 /** @type {import('tailwindcss').Config} */
+const withAlpha = (variable) => `rgb(var(${variable}) / <alpha-value>)`;
+
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: "#9A7060", light: "#F0E4DC" },
-        canvas: "#F5F0EB",
-        paper: "#FDFAF8",
-        shell: "#EEE8E2",
-        espresso: "#2D201A",
-        stone: "#7A6A60",
-        dust: "#B4A494",
-        fog: "#DDD5CC",
-        ash: "#C9B8A8",
-        status: {
-          todo: "#DDE4F4",
-          doing: "#F4E8D4",
-          done: "#D8ECD8",
+        brand: {
+          DEFAULT: withAlpha("--brand"),
+          light: withAlpha("--brand-light"),
+          dark: withAlpha("--brand-dark"),
+          darker: withAlpha("--brand-darker"),
         },
-        bug: { DEFAULT: "#C45858", bg: "#F4D4D0" },
-        impro: { DEFAULT: "#8060C4", bg: "#E0D8F4" },
+        canvas: withAlpha("--canvas"),
+        paper: withAlpha("--paper"),
+        shell: {
+          DEFAULT: withAlpha("--shell"),
+          dark: withAlpha("--shell-dark"),
+        },
+        espresso: withAlpha("--espresso"),
+        stone: withAlpha("--stone"),
+        dust: withAlpha("--dust"),
+        fog: withAlpha("--fog"),
+        ash: withAlpha("--ash"),
+        muted: withAlpha("--muted"),
+        status: {
+          todo: withAlpha("--status-todo"),
+          doing: withAlpha("--status-doing"),
+          done: withAlpha("--status-done"),
+          "todo-dot": withAlpha("--status-todo-dot"),
+          "doing-dot": withAlpha("--status-doing-dot"),
+          "done-dot": withAlpha("--status-done-dot"),
+        },
+        bug: {
+          DEFAULT: withAlpha("--bug"),
+          bg: withAlpha("--bug-bg"),
+          "bg-hover": withAlpha("--bug-bg-hover"),
+        },
+        impro: {
+          DEFAULT: withAlpha("--impro"),
+          bg: withAlpha("--impro-bg"),
+          "bg-hover": withAlpha("--impro-bg-hover"),
+        },
         feature: {
-          green: "#AECFAE",
-          blue: "#B8C8E8",
-          orange: "#E8C4A8",
+          green: withAlpha("--feature-green"),
+          blue: withAlpha("--feature-blue"),
+          orange: withAlpha("--feature-orange"),
         },
       },
       fontFamily: {
@@ -42,13 +64,13 @@ export default {
         hero: ["58px", { lineHeight: "1.12" }],
       },
       spacing: {
-        "2.25": "9px",
-        "2.75": "11px",
-        "3.25": "13px",
-        "3.75": "15px",
-        "4.5": "18px",
-        "5.5": "22px",
-        "120": "480px",
+        2.25: "9px",
+        2.75: "11px",
+        3.25: "13px",
+        3.75: "15px",
+        4.5: "18px",
+        5.5: "22px",
+        120: "480px",
       },
       borderRadius: {
         item: "9px",
@@ -62,8 +84,11 @@ export default {
         card: "0 4px 24px rgba(0,0,0,.1)",
         widget: "0 1px 5px rgba(0,0,0,.05)",
         task: "0 1px 4px rgba(0,0,0,.05)",
+        "task-hover": "0 5px 14px rgba(0,0,0,.09)",
+        "card-hover": "0 6px 18px rgba(0,0,0,.09)",
         panel: "-6px 0 32px rgba(0,0,0,.12)",
         "panel-right": "6px 0 32px rgba(0,0,0,.12)",
+        drawer: "-8px 0 40px rgba(0,0,0,.16)",
         tab: "0 1px 4px rgba(0,0,0,.08)",
       },
     },

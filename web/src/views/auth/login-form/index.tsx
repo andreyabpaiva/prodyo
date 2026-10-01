@@ -23,7 +23,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
     login.mutate(values, {
       onSuccess: () => {
         toast.success(t("auth.success.login"));
-        navigate("/", { replace: true });
+        navigate("/projects", { replace: true });
       },
       onError: (error) => toast.error(t(getAuthErrorKey(error))),
     });

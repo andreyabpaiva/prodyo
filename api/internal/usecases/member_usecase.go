@@ -27,7 +27,7 @@ func NewMemberUsecase(memberRepo memberrepo.MemberRepository) *MemberUsecase {
 	return &MemberUsecase{memberRepo: memberRepo}
 }
 
-func (u *MemberUsecase) List(ctx context.Context, projectID uuid.UUID) ([]models.Member, error) {
+func (u *MemberUsecase) List(ctx context.Context, projectID uuid.UUID) ([]models.MemberWithUser, error) {
 	return u.memberRepo.FindByProjectID(ctx, projectID)
 }
 

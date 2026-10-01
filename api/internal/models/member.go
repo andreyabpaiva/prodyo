@@ -8,9 +8,15 @@ import (
 )
 
 type Member struct {
-	ID        uuid.UUID            `db:"id"`
-	UserID    uuid.UUID            `db:"user_id"`
-	ProjectID uuid.UUID            `db:"project_id"`
-	Roles     utils.RoleSlice[Role] `db:"roles"`
-	CreatedAt time.Time            `db:"created_at"`
+	ID        uuid.UUID             `db:"id" json:"id"`
+	UserID    uuid.UUID             `db:"user_id" json:"user_id"`
+	ProjectID uuid.UUID             `db:"project_id" json:"project_id"`
+	Roles     utils.RoleSlice[Role] `db:"roles" json:"roles"`
+	CreatedAt time.Time             `db:"created_at" json:"created_at"`
+}
+
+type MemberWithUser struct {
+	Member
+	Name  string `db:"name" json:"name"`
+	Email string `db:"email" json:"email"`
 }

@@ -33,9 +33,16 @@ func (r *sqlxMemberRepository) FindByID(ctx context.Context, id uuid.UUID) (*mod
 	return &member, nil
 }
 
-func (r *sqlxMemberRepository) FindByProjectID(ctx context.Context, projectID uuid.UUID) ([]models.Member, error) {
-	var members []models.Member
-	err := r.db.SelectContext(ctx, &members, `SELECT * FROM members WHERE project_id = ?`, projectID)
+func (r *sqlxMemberRepository) FindByProjectID(ctx context.Context, projectID uuid.UUID) ([]models.MemberWithUser, error) {
+	members := []models.MemberWithUser{}
+	err := r.db.SelectContext(ctx, &members,
+		`SELECT m.id, m.user_id, m.project_id, m.roles, m.created_at, u.name, u.email
+		 FROM members m
+		 JOIN users u ON u.id = m.user_id
+		 WHERE m.project_id = ?
+		 ORDER BY m.created_at`,
+		projectID,
+	)
 	return members, err
 }
 

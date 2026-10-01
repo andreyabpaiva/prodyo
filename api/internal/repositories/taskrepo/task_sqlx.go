@@ -37,7 +37,7 @@ func (r *sqlxTaskRepository) FindByID(ctx context.Context, id uuid.UUID) (*model
 }
 
 func (r *sqlxTaskRepository) FindByIterationID(ctx context.Context, iterationID uuid.UUID) ([]models.Task, error) {
-	var tasks []models.Task
+	tasks := []models.Task{}
 	err := r.db.SelectContext(ctx, &tasks,
 		`SELECT * FROM tasks WHERE iteration_id = ? ORDER BY created_at ASC`, iterationID,
 	)

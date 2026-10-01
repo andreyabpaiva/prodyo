@@ -34,7 +34,7 @@ func (r *sqlxBugRepository) FindByID(ctx context.Context, id uuid.UUID) (*models
 }
 
 func (r *sqlxBugRepository) FindByTaskID(ctx context.Context, taskID uuid.UUID) ([]models.Bug, error) {
-	var bugs []models.Bug
+	bugs := []models.Bug{}
 	err := r.db.SelectContext(ctx, &bugs,
 		`SELECT * FROM bugs WHERE task_id = ? ORDER BY created_at ASC`, taskID,
 	)

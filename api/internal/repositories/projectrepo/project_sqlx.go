@@ -34,7 +34,7 @@ func (r *sqlxProjectRepository) FindByID(ctx context.Context, id uuid.UUID) (*mo
 }
 
 func (r *sqlxProjectRepository) FindByUserID(ctx context.Context, userID uuid.UUID) ([]models.Project, error) {
-	var projects []models.Project
+	projects := []models.Project{}
 	err := r.db.SelectContext(ctx, &projects,
 		`SELECT p.* FROM projects p
 		 INNER JOIN members m ON m.project_id = p.id

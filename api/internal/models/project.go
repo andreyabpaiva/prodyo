@@ -8,10 +8,10 @@ import (
 )
 
 type Project struct {
-	ID          uuid.UUID        `db:"id"`
-	Name        string           `db:"name"`
-	Description string           `db:"description"`
-	Tags        utils.StringSlice `db:"tags"`
-	CreatedAt   time.Time        `db:"created_at"`
-	UpdatedAt   time.Time        `db:"updated_at"`
+	ID          uuid.UUID         `db:"id" json:"id"`
+	Name        string            `db:"name" json:"name"`
+	Description string            `db:"description" json:"description"`
+	Tags        utils.StringSlice `db:"tags" json:"tags"`
+	CreatedAt   time.Time         `db:"created_at" json:"created_at"`
+	UpdatedAt   time.Time         `db:"updated_at" json:"updated_at"`
 }

@@ -1,3 +1,93 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --brand: 154 112 96;
+    --brand-light: 240 228 220;
+    --brand-dark: 135 96 79;
+    --brand-darker: 126 89 75;
+
+    --canvas: 245 240 235;
+    --paper: 253 250 248;
+    --shell: 238 232 226;
+    --shell-dark: 226 218 209;
+
+    --espresso: 45 32 26;
+    --stone: 122 106 96;
+    --dust: 180 164 148;
+    --fog: 221 213 204;
+    --ash: 201 184 168;
+    --muted: 192 176 160;
+
+    --status-todo: 221 228 244;
+    --status-doing: 244 232 212;
+    --status-done: 216 236 216;
+    --status-todo-dot: 120 136 196;
+    --status-doing-dot: 196 152 64;
+    --status-done-dot: 90 154 90;
+
+    --bug: 196 88 88;
+    --bug-bg: 244 212 208;
+    --bug-bg-hover: 239 195 189;
+
+    --impro: 128 96 196;
+    --impro-bg: 224 216 244;
+    --impro-bg-hover: 210 199 238;
+
+    --feature-green: 174 207 174;
+    --feature-blue: 184 200 232;
+    --feature-orange: 232 196 168;
+  }
+
+  body {
+    @apply bg-canvas text-espresso antialiased;
+    font-family: system-ui, sans-serif;
+    margin: 0;
+  }
+
+  a {
+    @apply text-brand;
+  }
+
+  a:hover {
+    @apply text-brand-darker;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-muted;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply outline-none border-brand;
+  }
+
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23B4A494'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-fog rounded;
+  }
+}
