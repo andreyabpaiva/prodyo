@@ -88,6 +88,17 @@ components:
           type: string
           format: date-time
 
+    MemberWithUser:
+      allOf:
+        - $ref: "#/components/schemas/Member"
+        - type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+              format: email
+
     Iteration:
       type: object
       properties:
@@ -479,7 +490,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Member"
+                  $ref: "#/components/schemas/MemberWithUser"
     post:
       summary: Add a member (Owner or Admin)
       tags: [Members]

@@ -35,7 +35,7 @@ func (r *sqlxImprovementRepository) FindByID(ctx context.Context, id uuid.UUID) 
 }
 
 func (r *sqlxImprovementRepository) FindByTaskID(ctx context.Context, taskID uuid.UUID) ([]models.Improvement, error) {
-	var improvements []models.Improvement
+	improvements := []models.Improvement{}
 	err := r.db.SelectContext(ctx, &improvements,
 		`SELECT * FROM improvements WHERE task_id = ? ORDER BY created_at ASC`, taskID,
 	)

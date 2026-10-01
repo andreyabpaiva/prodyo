@@ -63,10 +63,162 @@
       "generic": "Something went wrong. Please try again."
     }
   },
+  "nav": {
+    "projects": "Projects",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "projects": {
+    "title": "My projects",
+    "hint": "Pick a project to see its iterations.",
+    "new": "New project"
+  },
+  "project": {
+    "iterations": "Iterations",
+    "members": "Members",
+    "editProject": "Edit project",
+    "newIteration": "New iteration",
+    "emptyIterations": "This project has no iterations yet."
+  },
+  "iteration": {
+    "projectLabel": "Project",
+    "edit": "Edit iteration",
+    "newTask": "New task"
+  },
+  "taskStatus": {
+    "Backlog": "Backlog",
+    "Todo": "To do",
+    "InProgress": "In progress",
+    "Review": "Review",
+    "Done": "Done"
+  },
+  "iterationStatus": {
+    "Planned": "Planned",
+    "Active": "Active",
+    "Completed": "Completed"
+  },
+  "role": {
+    "Owner": "Owner",
+    "Admin": "Admin",
+    "Member": "Member"
+  },
+  "metrics": {
+    "iterations": "Iterations",
+    "tasks": "Tasks",
+    "fp": "Func. Points",
+    "expected": "Expected",
+    "spent": "Spent",
+    "bugs": "Bugs",
+    "improvements": "Improvements",
+    "velocity": "Velocity",
+    "rework": "Rework",
+    "instability": "Instability",
+    "reworkShort": "rework {{value}}",
+    "instabilityShort": "instab. {{value}}"
+  },
+  "units": {
+    "iteration_one": "{{count}} iteration",
+    "iteration_other": "{{count}} iterations",
+    "member_one": "{{count}} member",
+    "member_other": "{{count}} members",
+    "task_one": "{{count}} task",
+    "task_other": "{{count}} tasks"
+  },
+  "drawer": {
+    "badge": {
+      "task": "Task",
+      "bug": "Bug",
+      "improvement": "Improvement",
+      "project": "Project",
+      "iteration": "Iteration",
+      "profile": "Profile"
+    },
+    "title": {
+      "profile": "Profile",
+      "new": {
+        "task": "New task",
+        "bug": "New bug",
+        "improvement": "New improvement",
+        "project": "New project",
+        "iteration": "New iteration"
+      },
+      "edit": {
+        "task": "Edit task",
+        "bug": "Edit bug",
+        "improvement": "Edit improvement",
+        "project": "Edit project",
+        "iteration": "Edit iteration"
+      }
+    },
+    "sub": {
+      "task": "Describe the work and set the metrics.",
+      "bug": "Report the wrong behavior and link it to its task.",
+      "improvement": "Propose an improvement and link it to its task.",
+      "project": "Set up the project and start working.",
+      "iteration": "Define the work cycle and its main goal.",
+      "profile": "Your account information."
+    },
+    "primary": {
+      "edit": "Edit",
+      "save": "Save changes",
+      "createTask": "Create task",
+      "createBug": "Report bug",
+      "createImprovement": "Create improvement",
+      "createProject": "Create project",
+      "createIteration": "Create iteration"
+    },
+    "saved": {
+      "task": "Task saved",
+      "bug": "Bug saved",
+      "improvement": "Improvement saved",
+      "project": "Project saved",
+      "iteration": "Iteration saved"
+    },
+    "deleted": "Deleted",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "contextLine": "Will be created in {{project}} · #{{num}} {{goal}}",
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "tags": "Tags (comma separated)",
+      "tagsPlain": "Tags",
+      "expectedHours": "Expected (h)",
+      "spentHours": "Spent (h)",
+      "status": "Status",
+      "assignee": "Assignee",
+      "dueDate": "Due date",
+      "name": "Name",
+      "goal": "Iteration goal",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "fullName": "Full name"
+    },
+    "placeholders": {
+      "taskDescription": "Detail what needs to be done...",
+      "bugDescription": "What happens and what is expected...",
+      "improvementDescription": "What will be improved and why...",
+      "projectDescription": "Project goal..."
+    },
+    "empty": {
+      "bugs": "No bugs reported.",
+      "improvements": "No improvements proposed."
+    },
+    "error": "Something went wrong. Please try again.",
+    "unassigned": "Unassigned",
+    "parentLine": "Linked to task: {{title}}",
+    "validation": {
+      "endAfterStart": "End date must be after start date",
+      "nonNegative": "Must be zero or greater"
+    }
+  },
   "common": {
     "lang": "EN",
     "loading": "Loading...",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "back": "Back",
+    "close": "Close",
+    "loadError": "Could not load data. Please try again."
   }
 }

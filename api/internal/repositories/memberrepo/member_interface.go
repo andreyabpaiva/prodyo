@@ -10,7 +10,7 @@ import (
 type MemberRepository interface {
 	Create(ctx context.Context, member *models.Member) error
 	FindByID(ctx context.Context, id uuid.UUID) (*models.Member, error)
-	FindByProjectID(ctx context.Context, projectID uuid.UUID) ([]models.Member, error)
+	FindByProjectID(ctx context.Context, projectID uuid.UUID) ([]models.MemberWithUser, error)
 	FindByUserAndProject(ctx context.Context, userID, projectID uuid.UUID) (*models.Member, error)
 	Update(ctx context.Context, member *models.Member) error
 	Delete(ctx context.Context, id uuid.UUID) error

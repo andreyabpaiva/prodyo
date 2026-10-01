@@ -63,10 +63,162 @@
       "generic": "Algo deu errado. Tente novamente."
     }
   },
+  "nav": {
+    "projects": "Projetos",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "projects": {
+    "title": "Meus projetos",
+    "hint": "Selecione um projeto para ver suas iterações.",
+    "new": "Novo projeto"
+  },
+  "project": {
+    "iterations": "Iterações",
+    "members": "Membros",
+    "editProject": "Editar projeto",
+    "newIteration": "Nova iteração",
+    "emptyIterations": "Este projeto ainda não tem iterações."
+  },
+  "iteration": {
+    "projectLabel": "Projeto",
+    "edit": "Editar iteração",
+    "newTask": "Nova task"
+  },
+  "taskStatus": {
+    "Backlog": "Backlog",
+    "Todo": "A fazer",
+    "InProgress": "Em andamento",
+    "Review": "Em revisão",
+    "Done": "Concluído"
+  },
+  "iterationStatus": {
+    "Planned": "Planejada",
+    "Active": "Ativa",
+    "Completed": "Concluída"
+  },
+  "role": {
+    "Owner": "Owner",
+    "Admin": "Admin",
+    "Member": "Membro"
+  },
+  "metrics": {
+    "iterations": "Iterações",
+    "tasks": "Tasks",
+    "fp": "Func. Points",
+    "expected": "Previsto",
+    "spent": "Gasto",
+    "bugs": "Bugs",
+    "improvements": "Melhorias",
+    "velocity": "Velocidade",
+    "rework": "Retrabalho",
+    "instability": "Instabilidade",
+    "reworkShort": "retrab. {{value}}",
+    "instabilityShort": "instab. {{value}}"
+  },
+  "units": {
+    "iteration_one": "{{count}} iteração",
+    "iteration_other": "{{count}} iterações",
+    "member_one": "{{count}} membro",
+    "member_other": "{{count}} membros",
+    "task_one": "{{count}} task",
+    "task_other": "{{count}} tasks"
+  },
+  "drawer": {
+    "badge": {
+      "task": "Task",
+      "bug": "Bug",
+      "improvement": "Melhoria",
+      "project": "Projeto",
+      "iteration": "Iteração",
+      "profile": "Perfil"
+    },
+    "title": {
+      "profile": "Perfil",
+      "new": {
+        "task": "Nova task",
+        "bug": "Novo bug",
+        "improvement": "Nova melhoria",
+        "project": "Novo projeto",
+        "iteration": "Nova iteração"
+      },
+      "edit": {
+        "task": "Editar task",
+        "bug": "Editar bug",
+        "improvement": "Editar melhoria",
+        "project": "Editar projeto",
+        "iteration": "Editar iteração"
+      }
+    },
+    "sub": {
+      "task": "Descreva o que deve ser feito e defina as métricas.",
+      "bug": "Registre o comportamento incorreto e vincule à task de origem.",
+      "improvement": "Proponha uma melhoria e vincule à task de origem.",
+      "project": "Configure o projeto e comece a trabalhar.",
+      "iteration": "Defina o ciclo de trabalho e seu objetivo principal.",
+      "profile": "Informações da sua conta."
+    },
+    "primary": {
+      "edit": "Editar",
+      "save": "Salvar alterações",
+      "createTask": "Criar task",
+      "createBug": "Registrar bug",
+      "createImprovement": "Criar melhoria",
+      "createProject": "Criar projeto",
+      "createIteration": "Criar iteração"
+    },
+    "saved": {
+      "task": "Task salva",
+      "bug": "Bug salvo",
+      "improvement": "Melhoria salva",
+      "project": "Projeto salvo",
+      "iteration": "Iteração salva"
+    },
+    "deleted": "Excluído",
+    "delete": "Excluir",
+    "cancel": "Cancelar",
+    "contextLine": "Será criada em {{project}} · #{{num}} {{goal}}",
+    "fields": {
+      "title": "Título",
+      "description": "Descrição",
+      "tags": "Tags (separadas por vírgula)",
+      "tagsPlain": "Tags",
+      "expectedHours": "Previsto (h)",
+      "spentHours": "Gasto (h)",
+      "status": "Status",
+      "assignee": "Responsável",
+      "dueDate": "Prazo",
+      "name": "Nome",
+      "goal": "Meta da iteração",
+      "startDate": "Data de início",
+      "endDate": "Data de fim",
+      "fullName": "Nome completo"
+    },
+    "placeholders": {
+      "taskDescription": "Detalhe o que deve ser feito...",
+      "bugDescription": "O que acontece e qual o comportamento esperado...",
+      "improvementDescription": "O que será melhorado e por quê...",
+      "projectDescription": "Objetivo do projeto..."
+    },
+    "empty": {
+      "bugs": "Nenhum bug registrado.",
+      "improvements": "Nenhuma melhoria proposta."
+    },
+    "error": "Algo deu errado. Tente novamente.",
+    "unassigned": "Sem responsável",
+    "parentLine": "Vinculado à task: {{title}}",
+    "validation": {
+      "endAfterStart": "A data de fim deve ser posterior à de início",
+      "nonNegative": "Deve ser zero ou maior"
+    }
+  },
   "common": {
     "lang": "PT",
     "loading": "Carregando...",
     "showPassword": "Mostrar senha",
-    "hidePassword": "Ocultar senha"
+    "hidePassword": "Ocultar senha",
+    "back": "Voltar",
+    "close": "Fechar",
+    "loadError": "Não foi possível carregar os dados. Tente novamente."
   }
 }
